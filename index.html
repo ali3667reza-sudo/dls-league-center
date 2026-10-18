@@ -1,516 +1,395 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b12">
-<title>DLS League Center | لیگ برتر 2026</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLS League Center | لیگ برتر 2026</title>
 
-<style>
-:root{
-  --bg:#080b12;
-  --panel:#121a28;
-  --line:#29364b;
-  --gold:#f7c948;
-  --cyan:#32e6d1;
-  --muted:#a3afc1;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:radial-gradient(ellipse at top,#1a2940,#080b12 60%);
-  color:#f5f7fb;
-  font-family:Tahoma,Arial,sans-serif;
-}
-.wrap{width:min(1100px,92%);margin:auto}
-header{
-  border-bottom:1px solid var(--line);
-  background:#090d15;
-  padding:15px 0;
-}
-.nav{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.brand{
-  font-weight:900;
-  font-size:17px;
-  direction:ltr;
-  text-align:left;
-}
-.logo{
-  display:inline-grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--gold),#ff8c38);
-  color:#111;
-  border-radius:12px;
-  width:42px;
-  height:42px;
-  margin-right:8px;
-}
-.tag{
-  border:1px solid #344158;
-  color:var(--cyan);
-  padding:8px 11px;
-  border-radius:10px;
-  font-size:11px;
-}
-.hero{
-  text-align:center;
-  padding:48px 0 30px;
-}
-.eyebrow{
-  display:inline-block;
-  color:var(--gold);
-  border:1px solid #574a24;
-  border-radius:30px;
-  padding:7px 12px;
-  font-size:12px;
-}
-.hero h1{
-  font-size:clamp(32px,7vw,58px);
-  margin:20px 0 12px;
-}
-.hero h1 span{color:var(--gold)}
-.hero p{
-  color:var(--muted);
-  line-height:2;
-  max-width:650px;
-  margin:auto;
-}
-.stats{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:24px;
-}
-.stat{
-  background:#111724;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:12px 22px;
-  min-width:105px;
-}
-.stat b{
-  display:block;
-  color:var(--cyan);
-  font-size:20px;
-}
-.stat small{color:var(--muted)}
-main{padding:20px 0 50px}
-.heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-.heading h2{margin:0}
-.heading p{
-  color:var(--muted);
-  font-size:12px;
-}
-.search{
-  display:flex;
-  gap:10px;
-  margin:18px 0;
-}
-.search input,.search select{
-  background:#0e1522;
-  border:1px solid var(--line);
-  border-radius:11px;
-  padding:13px;
-  color:white;
-  font:inherit;
-}
-.search input{flex:1;min-width:0}
-.search select{max-width:220px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-}
-.team{
-  background:linear-gradient(145deg,#172235,#0e1420);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:17px;
-  position:relative;
-  overflow:hidden;
-  transition:transform .2s,border-color .2s,box-shadow .2s;
-}
-.team:hover{
-  transform:translateY(-4px);
-  border-color:var(--gold);
-  box-shadow:0 8px 28px #0005;
-}
-.team:before{
-  content:"";
-  height:3px;
-  position:absolute;
-  inset:0 0 auto;
-  background:linear-gradient(90deg,var(--cyan),var(--gold));
-}
-.teamtop{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.crest{
-  width:47px;
-  height:47px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:#253249;
-  color:var(--gold);
-  font-weight:bold;
-  font-size:17px;
-  border:1px solid #35445d;
-}
-.team h3{
-  margin:0 0 5px;
-  font-size:15px;
-  direction:ltr;
-  text-align:right;
-  overflow-wrap:anywhere;
-}
-.team small{
-  color:var(--cyan);
-  font-size:10px;
-}
-.team p{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.9;
-  min-height:42px;
-}
-.foot{
-  border-top:1px solid var(--line);
-  padding-top:12px;
-  color:var(--muted);
-  font-size:11px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-}
-.pill{
-  background:#27354b;
-  border-radius:7px;
-  padding:5px 8px;
-}
-.notice{
-  border:1px solid #5b4d22;
-  background:#f7c9480a;
-  border-radius:13px;
-  margin-top:22px;
-  padding:14px;
-  color:#d9d1b6;
-  font-size:12px;
-  line-height:2;
-}
-.notice b,footer b{color:var(--gold)}
-.empty{
-  display:none;
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-}
-footer{
-  text-align:center;
-  border-top:1px solid var(--line);
-  padding:22px;
-  color:var(--muted);
-  font-size:11px;
-  line-height:2;
-}
-@media(max-width:700px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hero{padding-top:35px}
-  .stat{padding:10px 12px}
-}
-@media(max-width:460px){
-  .grid{grid-template-columns:1fr}
-  .search{flex-direction:column}
-  .search select{max-width:none}
-  .brand{font-size:12px}
-  .stats{gap:6px}
-  .stat{padding:10px 7px;min-width:0;flex:1}
-  .heading h2{font-size:18px}
-}
-</style>
+  <style>
+    :root {
+      --gold: #f7c948;
+      --cyan: #32e6d1;
+      --bg: #070b14;
+      --card: #101827;
+      --muted: #a8b3c7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: radial-gradient(ellipse at top, #17253b 0%, var(--bg) 65%);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 24px 16px;
+      text-align: center;
+      border-bottom: 1px solid #263348;
+      background: rgba(5, 9, 17, .85);
+    }
+
+    header h1 {
+      color: var(--gold);
+      letter-spacing: 2px;
+      font-size: clamp(22px, 5vw, 36px);
+      margin: 0 0 10px;
+      text-shadow: 0 0 18px #f7c94840;
+    }
+
+    header p { color: var(--muted); margin: 0; }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 28px 16px 50px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 24px 10px 32px;
+    }
+
+    .hero h2 {
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 0 0 14px;
+    }
+
+    .hero h2 span { color: var(--cyan); }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 2;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0 30px;
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid #29374b;
+      border-radius: 14px;
+      padding: 18px 8px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--gold);
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    .section-title {
+      color: var(--cyan);
+      font-size: 22px;
+      margin: 30px 0 18px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    input, select {
+      background: #101827;
+      border: 1px solid #35445b;
+      color: white;
+      border-radius: 10px;
+      padding: 13px;
+      font: inherit;
+      min-width: 0;
+    }
+
+    input { flex: 1; }
+    select { width: 180px; }
+
+    input:focus, select:focus {
+      outline: 1px solid var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    .teams {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .team {
+      background: linear-gradient(145deg, #121e30, #0b111d);
+      border: 1px solid #29374b;
+      border-radius: 16px;
+      padding: 22px 16px;
+      text-align: center;
+      transition: .2s;
+      min-width: 0;
+    }
+
+    .team:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px #f7c94812;
+    }
+
+    .team-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: #080e19;
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 23px;
+      overflow: hidden;
+    }
+
+    .team-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .team h3 {
+      margin: 0 0 12px;
+      color: white;
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .team small {
+      color: var(--cyan);
+      letter-spacing: 1px;
+    }
+
+    .notice {
+      margin-top: 24px;
+      padding: 14px;
+      border: 1px solid #29374b;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 2;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--muted);
+      border-top: 1px solid #263348;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      .stats { gap: 7px; }
+      .stat strong { font-size: 22px; }
+      .controls { flex-direction: column; }
+      select { width: 100%; }
+      .teams { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .team { padding: 18px 8px; }
+      .team h3 { font-size: 14px; }
+    }
+  </style>
 </head>
 
 <body>
-<header>
-  <div class="wrap nav">
-    <div class="brand">
-      <span class="logo">DLS</span>DLS LEAGUE CENTER
+  <header>
+    <h1>DLS LEAGUE CENTER</h1>
+    <p>مرکز رسمی مدیریت لیگ دریم لیگ</p>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>به <span>لیگ برتر 2026</span> خوش آمدید</h2>
+      <p>
+        خانه اختصاصی تیم‌ها، رقابت‌ها و اطلاعات لیگ.
+        این سایت به‌تدریج به سامانه مدیریت واقعی لیگ تبدیل می‌شود.
+      </p>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <strong id="teamCount">10</strong>
+        <span>تیم در صفحه</span>
+      </div>
+      <div class="stat">
+        <strong>2026</strong>
+        <span>فصل مسابقات</span>
+      </div>
+      <div class="stat">
+        <strong id="connectionStat">...</strong>
+        <span>وضعیت اتصال</span>
+      </div>
+    </section>
+
+    <h2 class="section-title">⚜ تیم‌های لیگ برتر</h2>
+
+    <div class="controls">
+      <input id="searchInput" type="search"
+        placeholder="جست‌وجوی نام تیم...">
+      <select id="sortSelect">
+        <option value="original">ترتیب اصلی</option>
+        <option value="az">ترتیب الفبایی</option>
+      </select>
     </div>
-    <span class="tag">● مرکز لیگ</span>
-  </div>
-</header>
 
-<section class="hero wrap">
-  <span class="eyebrow">⚡ رقابت از اینجا شروع می‌شود</span>
-  <h1>مرکز لیگ <span>DLS</span></h1>
-  <p>
-    مرکز رسمی مدیریت لیگ Dream League Soccer؛
-    خانه تیم‌ها، بازیکنان، مسابقات و رقابت‌های فصل ۲۰۲۶.
-  </p>
+    <section class="teams" id="teamsGrid"></section>
 
-  <div class="stats">
-    <div class="stat">
-      <b id="teamCount">10</b>
-      <small>تیم لیگ برتر</small>
+    <div class="notice" id="statusMessage" aria-live="polite">
+      در حال بررسی اتصال به پایگاه داده...
     </div>
-    <div class="stat">
-      <b>2026</b>
-      <small>فصل رقابت‌ها</small>
-    </div>
-    <div class="stat">
-      <b>24/7</b>
-      <small>مرکز لیگ</small>
-    </div>
-  </div>
-</section>
+  </main>
 
-<main class="wrap">
-  <div class="heading">
-    <div>
-      <h2>تیم‌های لیگ برتر</h2>
-      <p>تیم موردنظرت رو جستجو کن</p>
-    </div>
-    <span class="pill">SEASON 2026</span>
-  </div>
+  <footer>
+    DLS League Center © 2026 | سیستم مدیریت لیگ
+  </footer>
 
-  <div class="search">
-    <input
-      id="q"
-      type="search"
-      placeholder="🔎 جستجوی نام تیم..."
-      aria-label="جستجوی تیم"
-    >
-    <select id="filter" aria-label="فیلتر تیم‌ها">
-      <option value="all">همه تیم‌ها</option>
-      <option value="az">مرتب‌سازی الفبایی</option>
-    </select>
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <div class="grid" id="grid">
+  <script>
+    const SUPABASE_URL = "https://dachizrjmanceckxuujl.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_78o6F2P6nhT2gz7HbPkwRw_DVaJLHfU";
 
-    <article class="team" data-name="omega امگا">
-      <div class="teamtop">
-        <div class="crest">Ω</div>
-        <div>
-          <h3>OMEGA</h3>
-          <small>OMEGA CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+    const initialTeams = [
+      { name: "OMEGA", logo: "Ω" },
+      { name: "KURDISTAN", logo: "KR" },
+      { name: "GLADIATOR", logo: "GL" },
+      { name: "ZENYX", logo: "ZX" },
+      { name: "DIAMOND", logo: "◆" },
+      { name: "KHORASAN", logo: "KH" },
+      { name: "SHOMAL", logo: "SH" },
+      { name: "KAVIAN", logo: "KV" },
+      { name: "BLACK NIGHT", logo: "BN" },
+      { name: "QALEH", logo: "QA" }
+    ];
 
-    <article class="team" data-name="kurdistan کردستان">
-      <div class="teamtop">
-        <div class="crest">KR</div>
-        <div>
-          <h3>KURDISTAN</h3>
-          <small>KURDISTAN CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+    let teams = initialTeams.map((team, index) => ({
+      ...team,
+      originalOrder: index
+    }));
 
-    <article class="team" data-name="gladiator گلادیاتور">
-      <div class="teamtop">
-        <div class="crest">GL</div>
-        <div>
-          <h3>GLADIATOR</h3>
-          <small>GLADIATOR CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+    const grid = document.getElementById("teamsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.getElementById("sortSelect");
+    const statusMessage = document.getElementById("statusMessage");
 
-    <article class="team" data-name="zenyx زینیکس">
-      <div class="teamtop">
-        <div class="crest">ZX</div>
-        <div>
-          <h3>ZENYX</h3>
-          <small>ZENYX CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+    function renderTeams() {
+      const query = searchInput.value.trim().toLowerCase();
 
-    <article class="team" data-name="diamond دایموند">
-      <div class="teamtop">
-        <div class="crest">◆</div>
-        <div>
-          <h3>DIAMOND</h3>
-          <small>DIAMOND CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+      let visibleTeams = teams.filter(team =>
+        team.name.toLowerCase().includes(query)
+      );
 
-    <article class="team" data-name="khorasan خراسان">
-      <div class="teamtop">
-        <div class="crest">KH</div>
-        <div>
-          <h3>KHORASAN</h3>
-          <small>KHORASAN CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+      if (sortSelect.value === "az") {
+        visibleTeams.sort((a, b) => a.name.localeCompare(b.name));
+      } else {
+        visibleTeams.sort((a, b) => a.originalOrder - b.originalOrder);
+      }
 
-    <article class="team" data-name="shomal شمال">
-      <div class="teamtop">
-        <div class="crest">SH</div>
-        <div>
-          <h3>SHOMAL</h3>
-          <small>SHOMAL CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+      grid.replaceChildren();
 
-    <article class="team" data-name="kavian کاویان">
-      <div class="teamtop">
-        <div class="crest">KV</div>
-        <div>
-          <h3>KAVIAN</h3>
-          <small>KAVIAN CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+      visibleTeams.forEach(team => {
+        const card = document.createElement("article");
+        card.className = "team";
 
-    <article class="team" data-name="black night بلک نایت">
-      <div class="teamtop">
-        <div class="crest">BN</div>
-        <div>
-          <h3>BLACK NIGHT</h3>
-          <small>BLACK NIGHT CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+        const logo = document.createElement("div");
+        logo.className = "team-logo";
 
-    <article class="team" data-name="qaleh قلعه">
-      <div class="teamtop">
-        <div class="crest">QA</div>
-        <div>
-          <h3>QALEH</h3>
-          <small>QALEH CLUB</small>
-        </div>
-      </div>
-      <p>باشگاه حاضر در لیگ برتر فصل ۲۰۲۶.</p>
-      <div class="foot">
-        <span>فصل ۲۰۲۶</span>
-        <span class="pill">باشگاه</span>
-      </div>
-    </article>
+        if (team.logo_url) {
+          const img = document.createElement("img");
+          img.src = team.logo_url;
+          img.alt = "لوگوی " + team.name;
+          img.referrerPolicy = "no-referrer";
+          img.onerror = () => {
+            logo.textContent = team.name.slice(0, 2);
+          };
+          logo.appendChild(img);
+        } else {
+          logo.textContent = team.logo || team.name.slice(0, 2);
+        }
 
-  </div>
+        const heading = document.createElement("h3");
+        heading.textContent = team.name;
 
-  <p class="empty" id="empty">تیمی با این نام پیدا نشد.</p>
+        const label = document.createElement("small");
+        label.textContent = "DLS LEAGUE";
 
-  <div class="notice">
-    <b>وضعیت پروژه:</b>
-    صفحه اصلی و فهرست ۱۰ تیم آماده است. اطلاعات فعلی کارت‌ها نمایشی است.
-    در مراحل بعد، نمایش تیم‌های تأییدشده، ورود مدیر لیگ، پنل مالکان تیم‌ها،
-    بازیکنان، مسابقات، جدول رده‌بندی، گلزنان و نقل‌وانتقالات را به دیتابیس
-    Supabase متصل می‌کنیم.
-  </div>
-</main>
+        card.append(logo, heading, label);
+        grid.appendChild(card);
+      });
 
-<footer>
-  <b>DLS LEAGUE CENTER</b><br>
-  جامعه Dream League Soccer • فصل ۲۰۲۶
-</footer>
+      document.getElementById("teamCount").textContent =
+        visibleTeams.length;
+    }
 
-<script>
-const q = document.getElementById('q');
-const filter = document.getElementById('filter');
-const grid = document.getElementById('grid');
-const empty = document.getElementById('empty');
+    searchInput.addEventListener("input", renderTeams);
+    sortSelect.addEventListener("change", renderTeams);
 
-function updateTeams() {
-  const cards = Array.from(grid.querySelectorAll('.team'));
-  const term = q.value.trim().toLowerCase();
+    renderTeams();
 
-  cards.forEach(card => {
-    card.style.display =
-      card.dataset.name.toLowerCase().includes(term) ? '' : 'none';
-  });
+    async function connectSupabase() {
+      const connectionStat = document.getElementById("connectionStat");
 
-  if (filter.value === 'az') {
-    cards.sort((a, b) =>
-      a.querySelector('h3').textContent.localeCompare(
-        b.querySelector('h3').textContent
-      )
-    );
-    cards.forEach(card => grid.appendChild(card));
-  } else {
-    cards.sort((a, b) =>
-      Number(a.dataset.originalOrder) -
-      Number(b.dataset.originalOrder)
-    );
-    cards.forEach(card => grid.appendChild(card));
-  }
+      try {
+        if (!window.supabase) {
+          throw new Error("Supabase library unavailable");
+        }
 
-  const visible = cards.filter(card => card.style.display !== 'none');
-  empty.style.display = visible.length ? 'none' : 'block';
-}
+        const client = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
 
-Array.from(grid.querySelectorAll('.team')).forEach((card, index) => {
-  card.dataset.originalOrder = index;
-});
+        const { data, error } = await client
+          .from("teams")
+          .select("id, name, logo_url")
+          .eq("is_approved", true);
 
-q.addEventListener('input', updateTeams);
-filter.addEventListener('change', updateTeams);
-</script>
+        if (error) throw error;
+
+        connectionStat.textContent = "متصل";
+
+        if (data && data.length > 0) {
+          teams = data.map((team, index) => ({
+            ...team,
+            originalOrder: index,
+            logo: team.name.slice(0, 2)
+          }));
+
+          renderTeams();
+
+          statusMessage.textContent =
+            "اتصال به Supabase برقرار است. تیم‌های نمایش‌داده‌شده از پایگاه داده خوانده شده‌اند.";
+        } else {
+          statusMessage.textContent =
+            "اتصال به Supabase برقرار است؛ اما هنوز تیم تأییدشده‌ای در جدول teams وجود ندارد. فعلاً فهرست اولیه ۱۰ تیم نمایش داده می‌شود.";
+        }
+      } catch (error) {
+        connectionStat.textContent = "بررسی";
+        statusMessage.textContent =
+          "فهرست اولیه ۱۰ تیم نمایش داده می‌شود؛ اتصال به پایگاه داده تأیید نشد. تنظیمات اتصال و دسترسی جدول teams باید بررسی شود.";
+        console.error("Supabase connection error:", error);
+      }
+    }
+
+    connectSupabase();
+  </script>
 </body>
 </html>

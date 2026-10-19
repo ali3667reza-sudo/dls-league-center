@@ -3,7 +3,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DLS League Center | لیگ برتر 2026</title>
 
   <style>
@@ -13,6 +13,7 @@
       --bg: #070b14;
       --card: #101827;
       --muted: #a8b3c7;
+      --border: #29374b;
     }
 
     * { box-sizing: border-box; }
@@ -29,12 +30,11 @@
       padding: 24px 16px;
       text-align: center;
       border-bottom: 1px solid #263348;
-      background: rgba(5, 9, 17, .85);
+      background: rgba(5, 9, 17, .9);
     }
 
     header h1 {
       color: var(--gold);
-      letter-spacing: 2px;
       font-size: clamp(22px, 5vw, 36px);
       margin: 0 0 10px;
       text-shadow: 0 0 18px #f7c94840;
@@ -45,27 +45,13 @@
     main {
       max-width: 1100px;
       margin: auto;
-      padding: 28px 16px 50px;
+      padding: 24px 16px 50px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 24px 10px 32px;
-    }
-
-    .hero h2 {
-      font-size: clamp(24px, 5vw, 38px);
-      margin: 0 0 14px;
-    }
-
+    .hero { text-align: center; padding: 24px 10px 32px; }
+    .hero h2 { font-size: clamp(24px, 5vw, 38px); margin: 0 0 14px; }
     .hero h2 span { color: var(--cyan); }
-
-    .hero p {
-      color: var(--muted);
-      line-height: 2;
-      max-width: 650px;
-      margin: auto;
-    }
+    .hero p { color: var(--muted); line-height: 2; max-width: 650px; margin: auto; }
 
     .stats {
       display: grid;
@@ -74,52 +60,58 @@
       margin: 20px 0 30px;
     }
 
-    .stat {
+    .stat, .panel {
       background: var(--card);
-      border: 1px solid #29374b;
+      border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 18px 8px;
-      text-align: center;
+      padding: 18px;
     }
 
-    .stat strong {
-      display: block;
-      color: var(--gold);
-      font-size: 26px;
-      margin-bottom: 8px;
-    }
-
+    .stat { text-align: center; padding: 18px 8px; }
+    .stat strong { display: block; color: var(--gold); font-size: 25px; margin-bottom: 8px; }
     .stat span { color: var(--muted); font-size: 13px; }
 
-    .section-title {
-      color: var(--cyan);
-      font-size: 22px;
-      margin: 30px 0 18px;
-    }
+    .section-title { color: var(--cyan); font-size: 22px; margin: 30px 0 18px; }
 
-    .controls {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
+    .controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+
+    input, select, button {
+      font: inherit;
+      border-radius: 10px;
+      padding: 13px;
     }
 
     input, select {
       background: #101827;
       border: 1px solid #35445b;
       color: white;
-      border-radius: 10px;
-      padding: 13px;
-      font: inherit;
       min-width: 0;
     }
 
-    input { flex: 1; }
-    select { width: 180px; }
+    input { width: 100%; }
+    .controls input { flex: 1; }
+    .controls select { width: 180px; }
 
     input:focus, select:focus {
       outline: 1px solid var(--cyan);
       border-color: var(--cyan);
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: var(--gold);
+      color: #15110a;
+      font-weight: bold;
+    }
+
+    button:hover { filter: brightness(1.08); }
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .btn-secondary {
+      color: white;
+      background: #253349;
+      border: 1px solid #43516a;
     }
 
     .teams {
@@ -130,7 +122,7 @@
 
     .team {
       background: linear-gradient(145deg, #121e30, #0b111d);
-      border: 1px solid #29374b;
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 22px 16px;
       text-align: center;
@@ -160,34 +152,29 @@
       overflow: hidden;
     }
 
-    .team-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .team h3 {
-      margin: 0 0 12px;
-      color: white;
-      font-size: 18px;
-      overflow-wrap: anywhere;
-    }
-
-    .team small {
-      color: var(--cyan);
-      letter-spacing: 1px;
-    }
+    .team-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .team h3 { margin: 0 0 12px; font-size: 18px; overflow-wrap: anywhere; }
+    .team small { color: var(--cyan); letter-spacing: 1px; }
 
     .notice {
-      margin-top: 24px;
+      margin-top: 20px;
       padding: 14px;
-      border: 1px solid #29374b;
+      border: 1px solid var(--border);
       border-radius: 12px;
       color: var(--muted);
       font-size: 13px;
       line-height: 2;
       overflow-wrap: anywhere;
     }
+
+    .panel { margin-top: 28px; }
+    .panel h2 { color: var(--gold); margin-top: 0; }
+    .panel p { color: var(--muted); line-height: 2; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .field label { color: var(--muted); font-size: 14px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .hidden { display: none !important; }
 
     footer {
       text-align: center;
@@ -197,14 +184,15 @@
       font-size: 13px;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
       .stats { gap: 7px; }
-      .stat strong { font-size: 22px; }
+      .stat strong { font-size: 21px; }
       .controls { flex-direction: column; }
-      select { width: 100%; }
+      .controls select { width: 100%; }
       .teams { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .team { padding: 18px 8px; }
       .team h3 { font-size: 14px; }
+      .form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -219,19 +207,19 @@
     <section class="hero">
       <h2>به <span>لیگ برتر 2026</span> خوش آمدید</h2>
       <p>
-        خانه اختصاصی تیم‌ها، رقابت‌ها و اطلاعات لیگ.
-        این سایت به‌تدریج به سامانه مدیریت واقعی لیگ تبدیل می‌شود.
+        سامانه مدیریت تیم‌ها و بازیکنان لیگ دریم لیگ.
+        اطلاعات تیم‌های تأییدشده از پایگاه داده خوانده می‌شوند.
       </p>
     </section>
 
     <section class="stats">
       <div class="stat">
         <strong id="teamCount">10</strong>
-        <span>تیم در صفحه</span>
+        <span>تیم نمایش‌داده‌شده</span>
       </div>
       <div class="stat">
         <strong>2026</strong>
-        <span>فصل مسابقات</span>
+        <span>فصل لیگ</span>
       </div>
       <div class="stat">
         <strong id="connectionStat">...</strong>
@@ -242,8 +230,7 @@
     <h2 class="section-title">⚜ تیم‌های لیگ برتر</h2>
 
     <div class="controls">
-      <input id="searchInput" type="search"
-        placeholder="جست‌وجوی نام تیم...">
+      <input id="searchInput" type="search" placeholder="جست‌وجوی نام تیم...">
       <select id="sortSelect">
         <option value="original">ترتیب اصلی</option>
         <option value="az">ترتیب الفبایی</option>
@@ -255,17 +242,104 @@
     <div class="notice" id="statusMessage" aria-live="polite">
       در حال بررسی اتصال به پایگاه داده...
     </div>
+
+    <!-- ورود مدیر -->
+    <section class="panel" id="loginPanel">
+      <h2>🔐 ورود مدیریت لیگ</h2>
+      <p>این بخش مخصوص مدیر لیگ است.</p>
+
+      <form id="loginForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="adminEmail">ایمیل مدیر</label>
+            <input id="adminEmail" type="email" autocomplete="username"
+              placeholder="ایمیل حساب مدیر" required>
+          </div>
+
+          <div class="field">
+            <label for="adminPassword">رمز عبور</label>
+            <input id="adminPassword" type="password"
+              autocomplete="current-password" placeholder="رمز عبور حساب مدیر" required>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="loginButton" type="submit">ورود به پنل مدیریت</button>
+        </div>
+      </form>
+
+      <div class="notice" id="loginMessage" aria-live="polite">
+        برای ورود از حساب مدیر تأییدشده استفاده کن.
+      </div>
+    </section>
+
+    <!-- پنل فصل؛ فقط برای مدیر تأییدشده -->
+    <section class="panel hidden" id="adminPanel">
+      <h2>⚜ پنل مدیریت فصل</h2>
+      <p id="adminIdentity"></p>
+
+      <div id="seasonStatus" class="notice">در حال بررسی فصل‌ها...</div>
+
+      <form id="seasonForm" class="hidden">
+        <div class="field">
+          <label for="seasonName">نام فصل</label>
+          <input id="seasonName" type="text" value="لیگ برتر ۲۰۲۶" required>
+        </div>
+
+        <div class="form-grid" style="margin-top:14px">
+          <div class="field">
+            <label for="freeLimit">سهمیه بازیکن آزاد هر تیم در کل فصل</label>
+            <input id="freeLimit" type="number" min="0" max="100" value="5" required>
+          </div>
+
+          <div class="field">
+            <label for="midseasonLimit">سهمیه انتقال میان‌فصل هر تیم</label>
+            <input id="midseasonLimit" type="number" min="0" max="100" value="8" required>
+          </div>
+
+          <div class="field">
+            <label for="rosterLimit">حداکثر بازیکن هر تیم</label>
+            <input id="rosterLimit" type="number" min="1" max="100" value="18" required>
+          </div>
+        </div>
+
+        <p>
+          فصل پس از ایجاد، در وضعیت «برنامه‌ریزی‌شده» می‌ماند.
+          ساخت فصل، به‌تنهایی فصل را فعال نمی‌کند و پنجره میان‌فصل بسته می‌ماند.
+        </p>
+
+        <div class="actions">
+          <button id="createSeasonButton" type="submit">ساخت فصل اول لیگ</button>
+          <button id="refreshSeasonsButton" class="btn-secondary" type="button">
+            بررسی دوباره فصل‌ها
+          </button>
+          <button id="logoutButton" class="btn-secondary" type="button">خروج</button>
+        </div>
+      </form>
+
+      <div class="actions hidden" id="adminLogoutOnly">
+        <button id="logoutButton2" class="btn-secondary" type="button">خروج</button>
+      </div>
+
+      <div id="adminMessage" class="notice" aria-live="polite"></div>
+    </section>
   </main>
 
-  <footer>
-    DLS League Center © 2026 | سیستم مدیریت لیگ
-  </footer>
+  <footer>DLS League Center © 2026 | سیستم مدیریت لیگ</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     const SUPABASE_URL = "https://dachizrjmanceckxuujl.supabase.co";
     const SUPABASE_KEY = "sb_publishable_78o6F2P6nhT2gz7HbPkwRw_DVaJLHfU";
+
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
 
     const initialTeams = [
       { name: "OMEGA", logo: "Ω" },
@@ -285,24 +359,20 @@
       originalOrder: index
     }));
 
-    const grid = document.getElementById("teamsGrid");
-    const searchInput = document.getElementById("searchInput");
-    const sortSelect = document.getElementById("sortSelect");
-    const statusMessage = document.getElementById("statusMessage");
+    let currentAdmin = null;
+
+    const $ = id => document.getElementById(id);
 
     function renderTeams() {
-      const query = searchInput.value.trim().toLowerCase();
+      const query = $("searchInput").value.trim().toLowerCase();
 
-      let visibleTeams = teams.filter(team =>
-        team.name.toLowerCase().includes(query)
-      );
+      const visibleTeams = teams
+        .filter(team => team.name.toLowerCase().includes(query))
+        .sort((a, b) => $("sortSelect").value === "az"
+          ? a.name.localeCompare(b.name)
+          : a.originalOrder - b.originalOrder);
 
-      if (sortSelect.value === "az") {
-        visibleTeams.sort((a, b) => a.name.localeCompare(b.name));
-      } else {
-        visibleTeams.sort((a, b) => a.originalOrder - b.originalOrder);
-      }
-
+      const grid = $("teamsGrid");
       grid.replaceChildren();
 
       visibleTeams.forEach(team => {
@@ -335,61 +405,258 @@
         grid.appendChild(card);
       });
 
-      document.getElementById("teamCount").textContent =
-        visibleTeams.length;
+      $("teamCount").textContent = visibleTeams.length;
     }
 
-    searchInput.addEventListener("input", renderTeams);
-    sortSelect.addEventListener("change", renderTeams);
+    $("searchInput").addEventListener("input", renderTeams);
+    $("sortSelect").addEventListener("change", renderTeams);
 
-    renderTeams();
+    function setMessage(id, message) {
+      $(id).textContent = message;
+    }
 
-    async function connectSupabase() {
-      const connectionStat = document.getElementById("connectionStat");
+    function setBusy(buttonId, busy, busyText) {
+      const button = $(buttonId);
+      if (busy) {
+        button.dataset.oldText = button.textContent;
+        button.textContent = busyText;
+        button.disabled = true;
+      } else {
+        button.textContent = button.dataset.oldText || button.textContent;
+        button.disabled = false;
+      }
+    }
 
+    async function loadTeams() {
       try {
-        if (!window.supabase) {
-          throw new Error("Supabase library unavailable");
-        }
-
-        const client = window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
-
-        const { data, error } = await client
+        const { data, error } = await db
           .from("teams")
           .select("id, name, logo_url")
           .eq("is_approved", true);
 
         if (error) throw error;
 
-        connectionStat.textContent = "متصل";
+        $("connectionStat").textContent = "متصل";
 
-        if (data && data.length > 0) {
-          teams = data.map((team, index) => ({
+        if (data && data.length) {
+          const order = initialTeams.map(t => t.name);
+          teams = data.map(team => ({
             ...team,
-            originalOrder: index,
-            logo: team.name.slice(0, 2)
+            logo: team.name.slice(0, 2),
+            originalOrder: order.includes(team.name)
+              ? order.indexOf(team.name)
+              : order.length
           }));
 
           renderTeams();
-
-          statusMessage.textContent =
-            "اتصال به Supabase برقرار است. تیم‌های نمایش‌داده‌شده از پایگاه داده خوانده شده‌اند.";
+          setMessage("statusMessage",
+            "اتصال برقرار است. تیم‌های تأییدشده از پایگاه داده نمایش داده می‌شوند.");
         } else {
-          statusMessage.textContent =
-            "اتصال به Supabase برقرار است؛ اما هنوز تیم تأییدشده‌ای در جدول teams وجود ندارد. فعلاً فهرست اولیه ۱۰ تیم نمایش داده می‌شود.";
+          setMessage("statusMessage",
+            "اتصال برقرار است؛ هنوز تیم تأییدشده‌ای در دیتابیس وجود ندارد. فهرست اولیه نمایش داده می‌شود.");
         }
       } catch (error) {
-        connectionStat.textContent = "بررسی";
-        statusMessage.textContent =
-          "فهرست اولیه ۱۰ تیم نمایش داده می‌شود؛ اتصال به پایگاه داده تأیید نشد. تنظیمات اتصال و دسترسی جدول teams باید بررسی شود.";
-        console.error("Supabase connection error:", error);
+        console.error("Team loading error:", error);
+        $("connectionStat").textContent = "بررسی";
+        setMessage("statusMessage",
+          "فهرست اولیه نمایش داده می‌شود. اتصال یا مجوز خواندن تیم‌ها باید بررسی شود.");
       }
     }
 
-    connectSupabase();
+    async function checkAdminSession() {
+      const { data: sessionData, error: sessionError } =
+        await db.auth.getSession();
+
+      if (sessionError || !sessionData.session) {
+        showLoggedOut();
+        return;
+      }
+
+      const { data: adminResult, error: adminError } =
+        await db.rpc("is_league_admin");
+
+      if (adminError || adminResult !== true) {
+        showLoggedOut();
+        setMessage("loginMessage",
+          "این حساب دسترسی مدیر لیگ ندارد. با حساب مدیر تأییدشده وارد شو.");
+        return;
+      }
+
+      currentAdmin = sessionData.session.user;
+      $("loginPanel").classList.add("hidden");
+      $("adminPanel").classList.remove("hidden");
+      $("seasonForm").classList.add("hidden");
+      $("adminLogoutOnly").classList.remove("hidden");
+      $("adminIdentity").textContent =
+        "واردشده به‌عنوان: " + (currentAdmin.email || "مدیر لیگ");
+
+      await loadSeasons();
+    }
+
+    function showLoggedOut() {
+      currentAdmin = null;
+      $("loginPanel").classList.remove("hidden");
+      $("adminPanel").classList.add("hidden");
+      $("seasonForm").classList.add("hidden");
+      $("adminLogoutOnly").classList.add("hidden");
+      $("adminMessage").textContent = "";
+    }
+
+    $("loginForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const email = $("adminEmail").value.trim();
+      const password = $("adminPassword").value;
+
+      setBusy("loginButton", true, "در حال ورود...");
+      setMessage("loginMessage", "در حال بررسی اطلاعات ورود...");
+
+      try {
+        const { error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        const { data: adminResult, error: adminError } =
+          await db.rpc("is_league_admin");
+
+        if (adminError) {
+          throw new Error("ورود انجام شد، اما بررسی دسترسی مدیر ناموفق بود: "
+            + adminError.message);
+        }
+
+        if (adminResult !== true) {
+          await db.auth.signOut();
+          throw new Error("این حساب در فهرست مدیران لیگ نیست.");
+        }
+
+        $("adminPassword").value = "";
+        setMessage("loginMessage", "ورود موفق بود.");
+        await checkAdminSession();
+      } catch (error) {
+        setMessage("loginMessage", "خطا: " + error.message);
+      } finally {
+        setBusy("loginButton", false);
+      }
+    });
+
+    async function loadSeasons() {
+      $("seasonForm").classList.add("hidden");
+      $("adminLogoutOnly").classList.remove("hidden");
+      setMessage("seasonStatus", "در حال بررسی فصل‌های موجود...");
+
+      try {
+        const { data, error } = await db
+          .from("league_seasons")
+          .select("id, season_name, status, free_signing_limit, midseason_transfer_limit, roster_limit, midseason_window_open")
+          .order("id", { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          setMessage("seasonStatus", "هنوز هیچ فصلی ساخته نشده است.");
+          $("seasonForm").classList.remove("hidden");
+          $("adminLogoutOnly").classList.add("hidden");
+          return;
+        }
+
+        const descriptions = data.map(season =>
+          `فصل #${season.id}: ${season.season_name} | وضعیت: ${season.status} | آزاد: ${season.free_signing_limit} | میان‌فصل: ${season.midseason_transfer_limit} | ظرفیت: ${season.roster_limit} | پنجره میان‌فصل: ${season.midseason_window_open ? "باز" : "بسته"}`
+        );
+
+        setMessage("seasonStatus", descriptions.join("\n"));
+
+        const activeOrPlanned = data.some(season =>
+          season.status === "active" || season.status === "planned"
+        );
+
+        if (activeOrPlanned) {
+          setMessage("adminMessage",
+            "فصل فعال یا برنامه‌ریزی‌شده وجود دارد. برای جلوگیری از ایجاد فصل تکراری، فرم ساخت فصل نمایش داده نمی‌شود.");
+        } else {
+          setMessage("adminMessage",
+            "فصل قبلی وجود دارد، اما فصل فعال یا برنامه‌ریزی‌شده‌ای پیدا نشد. برای ساخت فصل جدید، وضعیت را بررسی کن.");
+          $("seasonForm").classList.remove("hidden");
+          $("adminLogoutOnly").classList.add("hidden");
+        }
+      } catch (error) {
+        setMessage("seasonStatus",
+          "خطا در خواندن فصل‌ها: " + error.message);
+        setMessage("adminMessage",
+          "اگر خطای دسترسی دیدی، باید مجوز SELECT جدول league_seasons بررسی شود.");
+      }
+    }
+
+    $("seasonForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!currentAdmin) {
+        setMessage("adminMessage", "ابتدا باید به‌عنوان مدیر وارد شوی.");
+        return;
+      }
+
+      const seasonName = $("seasonName").value.trim();
+      const freeLimit = Number($("freeLimit").value);
+      const midseasonLimit = Number($("midseasonLimit").value);
+      const rosterLimit = Number($("rosterLimit").value);
+
+      if (!seasonName || freeLimit < 0 || midseasonLimit < 0 || rosterLimit < 1) {
+        setMessage("adminMessage", "لطفاً نام فصل و سهمیه‌های معتبر وارد کن.");
+        return;
+      }
+
+      setBusy("createSeasonButton", true, "در حال ساخت فصل...");
+      setMessage("adminMessage", "در حال ارسال درخواست امن به پایگاه داده...");
+
+      try {
+        const { data: adminResult, error: adminError } =
+          await db.rpc("is_league_admin");
+
+        if (adminError) throw adminError;
+        if (adminResult !== true) {
+          throw new Error("دسترسی مدیر تأیید نشد. دوباره وارد شو.");
+        }
+
+        const { data, error } = await db.rpc("create_league_season", {
+          p_season_name: seasonName,
+          p_free_signing_limit: freeLimit,
+          p_midseason_transfer_limit: midseasonLimit,
+          p_roster_limit: rosterLimit
+        });
+
+        if (error) throw error;
+
+        setMessage("adminMessage",
+          "فصل با موفقیت ساخته شد. شناسه فصل: " + data +
+          ". فصل هنوز برنامه‌ریزی‌شده است و فعال نشده.");
+
+        await loadSeasons();
+      } catch (error) {
+        console.error("Create season error:", error);
+        setMessage("adminMessage", "ساخت فصل ناموفق بود: " + error.message);
+      } finally {
+        setBusy("createSeasonButton", false);
+      }
+    });
+
+    $("refreshSeasonsButton").addEventListener("click", loadSeasons);
+
+    async function logout() {
+      await db.auth.signOut();
+      showLoggedOut();
+      setMessage("loginMessage", "از حساب مدیریت خارج شدی.");
+    }
+
+    $("logoutButton").addEventListener("click", logout);
+    $("logoutButton2").addEventListener("click", logout);
+
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT" || !session) {
+        showLoggedOut();
+      }
+    });
+
+    renderTeams();
+    loadTeams();
+    checkAdminSession();
   </script>
 </body>
 </html>

@@ -375,7 +375,7 @@ function showLoggedOut(){
   $("adminPanel").classList.add("hidden");
 }
 
-async function verifyAdmin(){
+async function verifyAdmin({showError=false}={}){
   const {data:sessionData,error:sessionError}=await db.auth.getSession();
   if(sessionError||!sessionData.session){
     showLoggedOut();
@@ -384,9 +384,11 @@ async function verifyAdmin(){
 
   const {data,error}=await db.rpc("is_league_admin");
   if(error||data!==true){
-    await db.auth.signOut();
-    showLoggedOut();
-    message("loginMessage","این حساب دسترسی مدیر لیگ ندارد.");
+    // مهم: حساب مدیر تیم را خارج نکن؛ فقط پنل مدیریت لیگ را پنهان کن.
+    currentAdmin=null;
+    $("loginPanel").classList.remove("hidden");
+    $("adminPanel").classList.add("hidden");
+    if(showError) message("loginMessage","این حساب دسترسی مدیر لیگ ندارد. با حساب مدیر تأییدشده وارد شوید.");
     return false;
   }
 
@@ -407,7 +409,7 @@ $("loginForm").addEventListener("submit",async event=>{
     const {error}=await db.auth.signInWithPassword({email,password});
     if(error)throw error;
     $("adminPassword").value="";
-    if(await verifyAdmin()){
+    if(await verifyAdmin({showError:true})){
       message("loginMessage","ورود موفق بود.");
       await loadSeasons();
       await loadTeamRequests();
@@ -633,7 +635,14 @@ $("logoutButton").addEventListener("click",logout);
 $("logoutButton2").addEventListener("click",logout);
 
 db.auth.onAuthStateChange((event,session)=>{
-  if(event==="SIGNED_OUT"||!session)showLoggedOut();
+  if(event==="SIGNED_OUT"||!session){
+    showLoggedOut();
+  }else{
+    // با تغییر حساب، دسترسی مدیر قبلی را موقتاً پاک کن تا دوباره از دیتابیس بررسی شود.
+    currentAdmin=null;
+    $("loginPanel").classList.remove("hidden");
+    $("adminPanel").classList.add("hidden");
+  }
 });
 
 

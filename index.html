@@ -823,7 +823,10 @@ async function init(){
   await loadTeams();
   await refreshOwnerSessionStatus();
   try{
-    if(await verifyAdmin())await loadSeasons();
+    if(await verifyAdmin()){
+      await loadSeasons();
+      await loadTeamRequests();
+    }
   }catch(e){
     console.error("Admin session check failed:",e);
     showLoggedOut();

@@ -84,6 +84,64 @@ footer{text-align:center;padding:24px 12px;color:var(--muted);border-top:1px sol
   <section class="teams" id="teamsGrid"></section>
   <div class="notice" id="statusMessage">در حال بررسی اتصال به پایگاه داده...</div>
 
+
+  <section class="panel" id="ownerPanel">
+    <h2>⚽ ثبت‌نام و ورود مدیر تیم</h2>
+    <p>ابتدا حساب خود را با ایمیل بسازید یا وارد حساب قبلی شوید. با توجه به فعال بودن تأیید ایمیل، ممکن است لازم باشد ایمیل را تأیید کنید و سپس وارد شوید. درخواست تیم تا تأیید مدیر لیگ عمومی نمی‌شود.</p>
+
+    <form id="ownerSignupForm">
+      <h3 class="section-title">ساخت حساب جدید</h3>
+      <div class="form-grid">
+        <div class="field">
+          <label for="ownerSignupEmail">ایمیل</label>
+          <input id="ownerSignupEmail" type="email" autocomplete="email" required placeholder="ایمیل معتبر">
+        </div>
+        <div class="field">
+          <label for="ownerSignupPassword">رمز عبور (حداقل ۸ کاراکتر)</label>
+          <input id="ownerSignupPassword" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+      </div>
+      <div class="actions"><button id="ownerSignupButton" type="submit">ساخت حساب</button></div>
+    </form>
+
+    <hr>
+    <form id="ownerLoginForm">
+      <h3 class="section-title">ورود مدیر تیم</h3>
+      <div class="form-grid">
+        <div class="field">
+          <label for="ownerLoginEmail">ایمیل</label>
+          <input id="ownerLoginEmail" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="ownerLoginPassword">رمز عبور</label>
+          <input id="ownerLoginPassword" type="password" autocomplete="current-password" required>
+        </div>
+      </div>
+      <div class="actions"><button id="ownerLoginButton" type="submit">ورود به حساب تیم</button></div>
+    </form>
+
+    <hr>
+    <form id="teamRegistrationForm">
+      <h3 class="section-title">ارسال درخواست ثبت تیم</h3>
+      <p id="ownerSessionStatus">برای ارسال درخواست، ابتدا وارد حساب مدیر تیم شوید.</p>
+      <div class="form-grid">
+        <div class="field">
+          <label for="newTeamName">نام تیم</label>
+          <input id="newTeamName" type="text" minlength="2" maxlength="60" required placeholder="نام تیم">
+        </div>
+        <div class="field">
+          <label for="newTeamLogo">آدرس لوگو (اختیاری)</label>
+          <input id="newTeamLogo" type="url" maxlength="1000" placeholder="https://...">
+        </div>
+      </div>
+      <div class="actions">
+        <button id="registerTeamButton" type="submit">ارسال درخواست برای مدیر لیگ</button>
+        <button id="ownerLogoutButton" class="btn-secondary" type="button">خروج از حساب تیم</button>
+      </div>
+    </form>
+    <div class="notice" id="ownerMessage" aria-live="polite">حساب تیم و حساب مدیر لیگ دو نقش جداگانه هستند.</div>
+  </section>
+
   <section class="panel" id="loginPanel">
     <h2>🔐 ورود مدیریت لیگ</h2>
     <p>این بخش مخصوص مدیر تأییدشدهٔ لیگ است.</p>
@@ -185,6 +243,15 @@ footer{text-align:center;padding:24px 12px;color:var(--muted);border-top:1px sol
     <div class="actions hidden" id="logoutOnly">
       <button id="logoutButton2" class="btn-secondary" type="button">خروج از حساب</button>
     </div>
+
+    <hr>
+    <h3 class="section-title">درخواست‌های ثبت تیم</h3>
+    <p>درخواست‌های در انتظار بررسی در این بخش نمایش داده می‌شوند.</p>
+    <div class="actions">
+      <button id="refreshRequestsButton" class="btn-secondary" type="button">🔄 تازه‌سازی درخواست‌ها</button>
+    </div>
+    <div id="teamRequestsList" class="notice">برای مشاهده درخواست‌ها، با حساب مدیر لیگ وارد شوید.</div>
+
     <div class="notice" id="adminMessage" aria-live="polite"></div>
   </section>
 </main>
@@ -343,6 +410,7 @@ $("loginForm").addEventListener("submit",async event=>{
     if(await verifyAdmin()){
       message("loginMessage","ورود موفق بود.");
       await loadSeasons();
+      await loadTeamRequests();
     }
   }catch(e){
     message("loginMessage","خطا در ورود: "+e.message);
@@ -568,9 +636,183 @@ db.auth.onAuthStateChange((event,session)=>{
   if(event==="SIGNED_OUT"||!session)showLoggedOut();
 });
 
+
+// ---- Team-owner account and registration flow ----
+async function refreshOwnerSessionStatus() {
+  const { data, error } = await db.auth.getSession();
+  if (error) {
+    message("ownerSessionStatus", "وضعیت ورود بررسی نشد: " + error.message);
+    return;
+  }
+  const user = data.session?.user;
+  if (user) {
+    message("ownerSessionStatus", "وارد شده‌اید: " + (user.email || "حساب کاربری") + " — اگر این حساب هنوز تیمی ثبت نکرده، فرم زیر را تکمیل کنید.");
+  } else {
+    message("ownerSessionStatus", "برای ارسال درخواست، ابتدا وارد حساب مدیر تیم شوید.");
+  }
+}
+
+$("ownerSignupForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  busy("ownerSignupButton", true, "در حال ساخت حساب...");
+  message("ownerMessage", "در حال ساخت حساب کاربری...");
+  try {
+    const email = $("ownerSignupEmail").value.trim();
+    const password = $("ownerSignupPassword").value;
+    const { data, error } = await db.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: window.location.origin + window.location.pathname }
+    });
+    if (error) throw error;
+    $("ownerSignupPassword").value = "";
+    if (data.session) {
+      message("ownerMessage", "حساب ساخته شد و وارد شدید. حالا نام تیم و در صورت تمایل آدرس لوگو را وارد و درخواست را ارسال کنید.");
+    } else {
+      message("ownerMessage", "حساب ساخته شد. چون تأیید ایمیل فعال است، لینک ارسال‌شده به ایمیل را باز کنید؛ سپس در همین صفحه از بخش «ورود مدیر تیم» وارد شوید و درخواست تیم را ارسال کنید.");
+    }
+    await refreshOwnerSessionStatus();
+  } catch (e) {
+    message("ownerMessage", "ساخت حساب ناموفق بود: " + e.message);
+  } finally {
+    busy("ownerSignupButton", false);
+  }
+});
+
+$("ownerLoginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  busy("ownerLoginButton", true, "در حال ورود...");
+  message("ownerMessage", "در حال ورود به حساب تیم...");
+  try {
+    const email = $("ownerLoginEmail").value.trim();
+    const password = $("ownerLoginPassword").value;
+    const { error } = await db.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    $("ownerLoginPassword").value = "";
+    message("ownerMessage", "ورود موفق بود. حالا می‌توانید درخواست تیم را ارسال کنید.");
+    await refreshOwnerSessionStatus();
+  } catch (e) {
+    message("ownerMessage", "ورود ناموفق بود: " + e.message);
+  } finally {
+    busy("ownerLoginButton", false);
+  }
+});
+
+$("teamRegistrationForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  busy("registerTeamButton", true, "در حال ارسال درخواست...");
+  try {
+    const { data: sessionData, error: sessionError } = await db.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData.session) {
+      throw new Error("ابتدا حساب بسازید یا از بخش ورود مدیر تیم وارد شوید. اگر تازه ثبت‌نام کرده‌اید، ابتدا ایمیل را تأیید کنید.");
+    }
+    const teamName = $("newTeamName").value.trim();
+    const logoUrl = $("newTeamLogo").value.trim();
+    if (teamName.length < 2 || teamName.length > 60) throw new Error("نام تیم باید بین ۲ تا ۶۰ کاراکتر باشد.");
+    if (logoUrl && !/^https?:\/\//i.test(logoUrl)) throw new Error("آدرس لوگو باید با https:// یا http:// شروع شود.");
+    const { data, error } = await db.rpc("register_new_team", {
+      p_team_name: teamName,
+      p_logo_url: logoUrl || null
+    });
+    if (error) throw error;
+    const result = Array.isArray(data) ? data[0] : data;
+    message("ownerMessage", "درخواست ثبت تیم با موفقیت ارسال شد. شناسه تیم: " + (result?.new_team_id ?? "ثبت شد") + " — تا تأیید مدیر، تیم در فهرست عمومی نمایش داده نمی‌شود.");
+    $("newTeamName").value = "";
+    $("newTeamLogo").value = "";
+  } catch (e) {
+    message("ownerMessage", "ارسال درخواست ناموفق بود: " + e.message);
+  } finally {
+    busy("registerTeamButton", false);
+  }
+});
+
+$("ownerLogoutButton").addEventListener("click", async () => {
+  try {
+    await db.auth.signOut();
+    message("ownerMessage", "از حساب تیم خارج شدید.");
+    await refreshOwnerSessionStatus();
+  } catch (e) {
+    message("ownerMessage", "خروج ناموفق بود: " + e.message);
+  }
+});
+
+async function loadTeamRequests() {
+  const list = $("teamRequestsList");
+  try {
+    await requireAdmin();
+    list.textContent = "در حال دریافت درخواست‌ها...";
+    const { data, error } = await db.from("team_requests")
+      .select("id,user_id,team_id,status,created_at,teams(name,logo_url)")
+      .eq("status", "pending")
+      .order("created_at", { ascending: true });
+    if (error) throw error;
+    list.replaceChildren();
+    if (!data || data.length === 0) {
+      list.textContent = "درخواست در انتظار بررسی وجود ندارد.";
+      return;
+    }
+    data.forEach(request => {
+      const card = document.createElement("div");
+      card.style.cssText = "border:1px solid var(--border);border-radius:10px;padding:12px;margin:10px 0;";
+      const title = document.createElement("strong");
+      const team = Array.isArray(request.teams) ? request.teams[0] : request.teams;
+      title.textContent = (team?.name || ("تیم #" + request.team_id)) + " — درخواست #" + request.id;
+      const meta = document.createElement("p");
+      meta.textContent = "شناسه کاربر: " + request.user_id + " | زمان ثبت: " + new Date(request.created_at).toLocaleString("fa-IR");
+      const actions = document.createElement("div");
+      actions.className = "actions";
+      const approve = document.createElement("button");
+      approve.className = "btn-green";
+      approve.type = "button";
+      approve.textContent = "تأیید تیم";
+      approve.addEventListener("click", () => reviewTeamRequest(request, "approved", approve));
+      const reject = document.createElement("button");
+      reject.className = "btn-red";
+      reject.type = "button";
+      reject.textContent = "رد درخواست";
+      reject.addEventListener("click", () => reviewTeamRequest(request, "rejected", reject));
+      actions.append(approve, reject);
+      card.append(title, meta, actions);
+      list.appendChild(card);
+    });
+  } catch (e) {
+    list.textContent = "دریافت درخواست‌ها ناموفق بود: " + e.message;
+  }
+}
+
+async function reviewTeamRequest(request, status, button) {
+  const actionText = status === "approved" ? "تأیید" : "رد";
+  if (!confirm("از " + actionText + " درخواست تیم #" + request.team_id + " مطمئن هستید؟")) return;
+  button.disabled = true;
+  try {
+    await requireAdmin();
+    if (status === "approved") {
+      const { error: teamError } = await db.from("teams")
+        .update({ is_approved: true })
+        .eq("id", request.team_id);
+      if (teamError) throw teamError;
+    }
+    const { error: requestError } = await db.from("team_requests")
+      .update({ status, reviewed_at: new Date().toISOString() })
+      .eq("id", request.id)
+      .eq("status", "pending");
+    if (requestError) throw requestError;
+    message("adminMessage", "درخواست تیم #" + request.team_id + " " + (status === "approved" ? "تأیید" : "رد") + " شد.");
+    await loadTeamRequests();
+    await loadTeams();
+  } catch (e) {
+    message("adminMessage", "بررسی درخواست ناموفق بود: " + e.message + " — وضعیت تیم و درخواست را در دیتابیس بررسی کنید.");
+    button.disabled = false;
+  }
+}
+
+$("refreshRequestsButton").addEventListener("click", loadTeamRequests);
+
 async function init(){
   renderTeams();
   await loadTeams();
+  await refreshOwnerSessionStatus();
   try{
     if(await verifyAdmin())await loadSeasons();
   }catch(e){
